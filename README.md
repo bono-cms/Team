@@ -1,2 +1,4 @@
-# Team
-Team module to manage members of your company / organization
+Team module
+===========
+
+This module let's you manage members of your team. For details, please refer its documentation.
