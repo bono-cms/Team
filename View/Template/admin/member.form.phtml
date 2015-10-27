@@ -1,13 +1,13 @@
 <?php
 
-use Krystal\Form\Widget\CheckBoxWidget;
+use Krystal\Form\Element;
 
 ?>
 
 <form>
 	
-	<input type="hidden" name="team[id]" value="<?php echo $member->getId(); ?>" />
-	<input type="hidden" name="team[photo]" value="<?php echo $member->getPhoto(); ?>" />
+    <?php echo Element::hidden('team[id]', $member->getId()); ?>
+    <?php echo Element::hidden('team[photo]', $member->getPhoto()); ?>
 	
 	<div class="well clearfix">
 		
@@ -15,20 +15,18 @@ use Krystal\Form\Widget\CheckBoxWidget;
 			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
-					<input type="text" name="team[name]" class="form-control" placeholder="<?php $this->show("Member's name"); ?>" value="<?php echo $member->getName(); ?>" />
+                    <?php echo Element::text('team[name]', $member->getName(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's name"))); ?>
 					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 				</div>
 			</div>
 		</div>
 		
-		
 		<div class="form-group clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 			<div class="col-lg-10">
-				<textarea name="team[description]"><?php echo $member->getDescription(); ?></textarea>
+				<?php echo Element::textarea('team[description]', $member->getDescription()); ?>
 			</div>
 		</div>
-		
 		
 		<div class="form-group clearfix clearfix">
 			<label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
@@ -45,34 +43,31 @@ use Krystal\Form\Widget\CheckBoxWidget;
 				<br />
 				<br />
 				
-				<input type="file" name="file" accept="image/x-png, image/gif, image/jpeg" />
+                <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg'); ?>
 			</div>
 		</div>
 		
 		
 		<div class="options">
-			
 			<div class="form-group clearfix">
 				<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 				<div class="col-lg-10">
-					<?php echo CheckBoxWidget::render(array('name' => 'team[published]', 'class' => 'form-control'), $member->getPublished()); ?>
+					<?php echo Element::checkbox('team[published]', $member->getPublished(), array('class' => 'form-control')); ?>
 				</div>
 			</div>
 			
 			<div class="form-group clearfix">
 				<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
 				<div class="col-lg-10">
-					<input type="number" name="team[order]" class="form-control" placeholder="<?php $this->show("Member's sort order"); ?>" value="<?php echo $member->getOrder(); ?>" />
+                    <?php echo Element::number('team[order]', $member->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
 				</div>
 			</div>
-			
 		</div>
-		
 	</div>
 	
-	
 	<?php if ($member->getId()): ?>
-	<button data-button="save" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+	
+    <button data-button="save" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
 	<button data-button="save-create" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
 	
 	<?php else: ?>
