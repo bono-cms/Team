@@ -16,15 +16,15 @@ use Krystal\Validate\Pattern;
 
 final class Config extends AbstractConfigController
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function getValidationRules()
-	{
-		return array(
-			'per_page_count' => new Pattern\PerPageCount(),
-			'cover_height' => new Pattern\ThumbHeight(),
-			'cover_width' => new Pattern\ThumbWidth()
-		);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected function getValidationRules()
+    {
+        return array(
+            'per_page_count' => new Pattern\PerPageCount(),
+            'cover_height' => new Pattern\ThumbHeight(),
+            'cover_width' => new Pattern\ThumbWidth()
+        );
+    }
 }

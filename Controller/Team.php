@@ -15,44 +15,42 @@ use Site\Controller\AbstractController;
 
 final class Team extends AbstractController
 {
-	/**
-	 * Shows a page with team members
-	 * 
-	 * @param string $id Page id
-	 * @param string $pageNumber Page id
-	 * @param string $code Language code
-	 * @param string $slug Page slug
-	 * @return string
-	 */
-	public function indexAction($id = false, $pageNumber = 1, $code = null, $slug = null)
-	{
-		$pageManager = $this->getService('Pages', 'pageManager');
-		$page = $pageManager->fetchById($id);
+    /**
+     * Shows a page with team members
+     * 
+     * @param string $id Page id
+     * @param string $pageNumber Page id
+     * @param string $code Language code
+     * @param string $slug Page slug
+     * @return string
+     */
+    public function indexAction($id = false, $pageNumber = 1, $code = null, $slug = null)
+    {
+        $pageManager = $this->getService('Pages', 'pageManager');
+        $page = $pageManager->fetchById($id);
 
-		if ($page !== false) {
+        if ($page !== false) {
 
-			// Load asset plugins and tweak breadcrumbs
-			$this->loadSitePlugins();
-			$this->view->getBreadcrumbBag()->add($pageManager->getBreadcrumbs($page));
+            // Load asset plugins and tweak breadcrumbs
+            $this->loadSitePlugins();
+            $this->view->getBreadcrumbBag()->add($pageManager->getBreadcrumbs($page));
 
-			$teamManager = $this->getModuleService('teamManager');
-			$config = $this->getModuleService('configManager')->getEntity();
+            $teamManager = $this->getModuleService('teamManager');
+            $config = $this->getModuleService('configManager')->getEntity();
 
-			// Fetch all members
-			$members = $teamManager->fetchAllPublishedByPage($pageNumber, $config->getPerPageCount());
+            // Fetch all members
+            $members = $teamManager->fetchAllPublishedByPage($pageNumber, $config->getPerPageCount());
 
-			$paginator = $teamManager->getPaginator();
-			$this->preparePaginator($paginator, $code, $slug, $pageNumber);
+            $paginator = $teamManager->getPaginator();
+            $this->preparePaginator($paginator, $code, $slug, $pageNumber);
 
-			return $this->view->render('team', array(
-				'page' => $page,
-				'members' => $members,
-				'paginator' => $paginator
-			));
-
-		} else {
-
-			return false;
-		}
-	}
+            return $this->view->render('team', array(
+                'page' => $page,
+                'members' => $members,
+                'paginator' => $paginator
+            ));
+        } else {
+            return false;
+        }
+    }
 }

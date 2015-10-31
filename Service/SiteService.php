@@ -13,31 +13,31 @@ namespace Team\Service;
 
 final class SiteService implements SiteServiceInterface
 {
-	/**
-	 * Team manager service
-	 * 
-	 * @var \Team\Service\TeamManagerInterface
-	 */
-	private $teamManager;
+    /**
+     * Team manager service
+     * 
+     * @var \Team\Service\TeamManagerInterface
+     */
+    private $teamManager;
 
-	/**
-	 * State initialization
-	 * 
-	 * @param \Team\Service\TeamManagerInterface $teamManager
-	 * @return void
-	 */
-	public function __construct(TeamManagerInterface $teamManager)
-	{
-		$this->teamManager = $teamManager;
-	}
+    /**
+     * State initialization
+     * 
+     * @param \Team\Service\TeamManagerInterface $teamManager
+     * @return void
+     */
+    public function __construct(TeamManagerInterface $teamManager)
+    {
+        $this->teamManager = $teamManager;
+    }
 
-	/**
-	 * Returns all member entities
-	 * 
-	 * @return array
-	 */
-	public function getAll()
-	{
-		return $this->teamManager->fetchAllPublished();
-	}
+    /**
+     * Returns all member entities
+     * 
+     * @return array
+     */
+    public function getAll()
+    {
+        return $this->teamManager->fetchAllPublished();
+    }
 }

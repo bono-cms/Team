@@ -13,49 +13,44 @@ namespace Team\Controller\Admin;
 
 final class Edit extends AbstractMember
 {
-	/**
-	 * Shows edit form
-	 * 
-	 * @param string $id
-	 * @return string
-	 */
-	public function indexAction($id)
-	{
-		$member = $this->getTeamManager()->fetchById($id);
+    /**
+     * Shows edit form
+     * 
+     * @param string $id
+     * @return string
+     */
+    public function indexAction($id)
+    {
+        $member = $this->getTeamManager()->fetchById($id);
 
-		if ($member !== false) {
-			$this->loadSharedPlugins();
+        if ($member !== false) {
+            $this->loadSharedPlugins();
+            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+                'title' => 'Edit the member',
+                'member' => $member
+            )));
 
-			return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-				'title' => 'Edit the member',
-				'member' => $member
-			)));
+        } else {
+            return false;
+        }
+    }
 
-		} else {
+    /**
+     * Updates a team member
+     * 
+     * @return string
+     */
+    public function updateAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('team'), $this->request->getFiles(), true);
 
-			return false;
-		}
-	}
-
-	/**
-	 * Updates a team member
-	 * 
-	 * @return string
-	 */
-	public function updateAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('team'), $this->request->getFiles(), true);
-
-		if ($formValidator->isValid()) {
-
-			if ($this->getTeamManager()->update($this->request->getAll())) {
-
-				$this->flashBag->set('success', 'The member has been updated successfully');
-				return '1';
-			}
-
-		} else {
-			return $formValidator->getErrors();
-		}
-	}
+        if ($formValidator->isValid()) {
+            if ($this->getTeamManager()->update($this->request->getAll())) {
+                $this->flashBag->set('success', 'The member has been updated successfully');
+                return '1';
+            }
+        } else {
+            return $formValidator->getErrors();
+        }
+    }
 }
