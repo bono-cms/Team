@@ -46,29 +46,15 @@ abstract class AbstractMember extends AbstractController
     }
 
     /**
-     * Returns shared variables for Add and Edit controllers
+     * Loads breadcrumbs
      * 
-     * @param array $overrides
-     * @return array
+     * @param string $title
+     * @return void
      */
-    final protected function getWithSharedVars(array $overrides)
+    final protected function loadBreadcrumbs($title)
     {
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'name' => 'Team',
-                'link' => 'Team:Admin:Browser@indexAction'
-            ),
-
-            array(
-                'name' => $overrides['title'],
-                'link' => '#'
-            )
-        ));
-
-        $vars = array(
-        );
-
-        return array_replace_recursive($vars, $overrides);
+        $this->view->getBreadcrumbBag()->addOne('Team', 'Team:Admin:Browser@indexAction')
+                                       ->addOne($title);
     }
 
     /**
@@ -78,7 +64,7 @@ abstract class AbstractMember extends AbstractController
      */
     final protected function loadSharedPlugins()
     {
-        $this->view->getPluginBag()->appendScript($this->getWithAssetPath('/admin/member.form.js'))
+        $this->view->getPluginBag()->appendScript('@Team/admin/member.form.js')
                    ->load(array($this->getWysiwygPluginName(), 'preview'));
     }
 

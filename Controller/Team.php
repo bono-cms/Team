@@ -26,14 +26,12 @@ final class Team extends AbstractController
      */
     public function indexAction($id = false, $pageNumber = 1, $code = null, $slug = null)
     {
-        $pageManager = $this->getService('Pages', 'pageManager');
-        $page = $pageManager->fetchById($id);
+        $page = $this->getService('Pages', 'pageManager')->fetchById($id);
 
         if ($page !== false) {
-
             // Load asset plugins and tweak breadcrumbs
             $this->loadSitePlugins();
-            $this->view->getBreadcrumbBag()->add($pageManager->getBreadcrumbs($page));
+            $this->view->getBreadcrumbBag()->addOne($page->getTitle());
 
             $teamManager = $this->getModuleService('teamManager');
             $config = $this->getModuleService('configManager')->getEntity();

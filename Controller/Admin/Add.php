@@ -23,14 +23,15 @@ final class Add extends AbstractMember
     public function indexAction()
     {
         $this->loadSharedPlugins();
+        $this->loadBreadcrumbs('Add a member');
 
         $member = new VirtualEntity();
         $member->setPublished(true);
 
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+        return $this->view->render($this->getTemplatePath(), array(
             'title' => 'Add a member',
-            'member' => $member,
-        )));
+            'member' => $member
+        ));
     }
 
     /**

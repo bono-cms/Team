@@ -25,10 +25,12 @@ final class Edit extends AbstractMember
 
         if ($member !== false) {
             $this->loadSharedPlugins();
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            $this->loadBreadcrumbs('Edit the member');
+
+            return $this->view->render($this->getTemplatePath(), array(
                 'title' => 'Edit the member',
                 'member' => $member
-            )));
+            ));
 
         } else {
             return false;

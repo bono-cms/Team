@@ -55,14 +55,9 @@ final class Browser extends AbstractController
     private function loadPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/browser.js'));
+                   ->appendScript('@Team/admin/browser.js');
 
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'name' => 'Team',
-                'link' => '#'
-            )
-        ));
+        $this->view->getBreadcrumbBag()->addOne('Team');
     }
 
     /**
@@ -76,7 +71,6 @@ final class Browser extends AbstractController
             $id = $this->request->getPost('id');
 
             if ($this->getTeamManager()->deleteById($id)) {
-
                 $this->flashBag->set('success', 'Selected team member has been removed successfully');
                 return '1';
             }
@@ -91,7 +85,6 @@ final class Browser extends AbstractController
     public function deleteSelectedAction()
     {
         if ($this->request->hasPost('toDelete')) {
-
             $ids = array_keys($this->request->getPost('toDelete'));
             $this->getTeamManager()->deleteByIds($ids);
 
@@ -112,18 +105,14 @@ final class Browser extends AbstractController
     public function saveAction()
     {
         if ($this->request->hasPost('published', 'order')) {
-
             $published = $this->request->getPost('published');
             $orders = $this->request->getPost('order');
 
             $teamManager = $this->getTeamManager();
-
-            // Now start updating
             $teamManager->updateOrders($orders);
             $teamManager->updatePublished($published);
 
             $this->flashBag->set('success', 'Settings have been updated successfully');
-
             return '1';
         }
     }
