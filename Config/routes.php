@@ -10,7 +10,6 @@
  */
 
 return array(
-    
     '/admin/module/team/config' => array(
         'controller' => 'Admin:Config@indexAction'
     ),
@@ -25,43 +24,33 @@ return array(
     ),
     
     '/admin/module/team' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Member@gridAction'
     ),
     
     '/admin/module/team/page/(:var)' => array(
-        'controller' => 'Admin:Browser@indexAction'
+        'controller' => 'Admin:Member@gridAction'
     ),
     
-    '/admin/module/team/save.ajax' => array(
-        'controller' => 'Admin:Browser@saveAction',
+    '/admin/module/team/tweak' => array(
+        'controller' => 'Admin:Member@tweakAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/team/delete.ajax' => array(
-        'controller' => 'Admin:Browser@deleteAction',
-        'disallow' => array('guest')
-    ),
-    
-    '/admin/module/team/delete-selected.ajax' => array(
-        'controller' => 'Admin:Browser@deleteSelectedAction',
+    '/admin/module/team/delete' => array(
+        'controller' => 'Admin:Member@deleteAction',
         'disallow' => array('guest')
     ),
     
     '/admin/module/team/add' => array(
-        'controller' => 'Admin:Add@indexAction'
-    ),
-    
-    '/admin/module/team/add.ajax' => array(
-        'controller' => 'Admin:Add@addAction',
-        'disallow' => array('guest')
+        'controller' => 'Admin:Member@addAction'
     ),
     
     '/admin/module/team/edit/(:var)' => array(
-        'controller' => 'Admin:Edit@indexAction'
+        'controller' => 'Admin:Member@editAction'
     ),
     
-    '/admin/module/team/edit.ajax' => array(
-        'controller' => 'Admin:Edit@updateAction',
+    '/admin/module/team/save' => array(
+        'controller' => 'Admin:Member@saveAction',
         'disallow' => array('guest')
-    ),
+    )
 );
