@@ -115,26 +115,7 @@ final class Member extends AbstractController
      */
     public function deleteAction()
     {
-        // Batch removal
-        if ($this->request->hasPost('toDelete')) {
-            $ids = array_keys($this->request->getPost('toDelete'));
-            $this->getTeamManager()->deleteByIds($ids);
-
-            $this->flashBag->set('success', 'Selected team member have been removed successfully');
-        } else {
-            $this->flashBag->set('warning', 'You should select at least one member to remove');
-        }
-
-        // Single removal
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-
-            if ($this->getTeamManager()->deleteById($id)) {
-                $this->flashBag->set('success', 'Selected team member has been removed successfully');
-            }
-        }
-
-        return '1';
+        return $this->invokeRemoval('teamManager');
     }
 
     /**
@@ -166,7 +147,7 @@ final class Member extends AbstractController
     {
         $input = $this->request->getPost('team');
 
-        $formValidator = $this->validatorFactory->build(array(
+        return $this->invokeSave('teamManager', $input['id'], $this->request->getAll(), array(
             'input' => array(
                 'source' => $input,
                 'definition' => array(
@@ -183,25 +164,5 @@ final class Member extends AbstractController
                 )
             )
         ));
-        
-        if ($formValidator->isValid()) {
-            $teamManager = $this->getTeamManager();
-
-            if ($input['id']) {
-                if ($teamManager->update($this->request->getAll())) {
-                    $this->flashBag->set('success', 'The member has been updated successfully');
-                    return '1';
-                }
-                
-            } else {
-                if ($teamManager->add($this->request->getAll())) {
-                    $this->flashBag->set('success', 'A member has been added successfully');
-                    return $teamManager->getLastId();
-                }
-            }
-
-        } else {
-            return $formValidator->getErrors();
-        }
     }
 }

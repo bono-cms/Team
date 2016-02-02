@@ -3,7 +3,7 @@
   'module' => 
   array (
     'url' => '/admin/module/team',
-    'icon' => '/module/Team/Assets/team.png',
+    'icon' => 'fa fa-user-secret fa-5x',
     'name' => 'Team',
     'order' => 5,
     'description' => 'Team module allows to manage your personal',
