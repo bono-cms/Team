@@ -22,7 +22,7 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
      */
     public static function getTableName()
     {
-        return 'bono_module_team';
+        return self::getWithPrefix('bono_module_team');
     }
 
     /**
