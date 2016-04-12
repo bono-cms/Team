@@ -99,7 +99,7 @@ final class Member extends AbstractController
         $teamManager = $this->getTeamManager();
 
         $paginator = $teamManager->getPaginator();
-        $paginator->setUrl('/admin/module/team/page/(:var)');
+        $paginator->setUrl($this->createUrl('Team:Admin:Member@gridAction', array(), 1));
 
         return $this->view->render('browser', array(
             'members' => $teamManager->fetchAllByPage($page, $this->getSharedPerPageCount()),
