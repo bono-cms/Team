@@ -88,10 +88,6 @@ final class Member extends AbstractController
      */
     public function gridAction($page = 1)
     {
-        // Load view plugins
-        $this->view->getPluginBag()
-                   ->appendScript('@Team/admin/browser.js');
-
         // Append a breadcrumb
         $this->view->getBreadcrumbBag()
                    ->addOne('Team');
@@ -111,11 +107,12 @@ final class Member extends AbstractController
     /**
      * Removes selected team's member
      * 
+     * @param string $id
      * @return string
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->invokeRemoval('teamManager');
+        return $this->invokeRemoval('teamManager', $id);
     }
 
     /**

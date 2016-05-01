@@ -36,7 +36,7 @@ return array(
         'disallow' => array('guest')
     ),
     
-    '/admin/module/team/delete' => array(
+    '/admin/module/team/delete/(:var)' => array(
         'controller' => 'Admin:Member@deleteAction',
         'disallow' => array('guest')
     ),
