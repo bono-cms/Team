@@ -10,11 +10,11 @@
  */
 
 return array(
-    '/admin/module/team/config' => array(
+    '/%s/module/team/config' => array(
         'controller' => 'Admin:Config@indexAction'
     ),
     
-    '/admin/module/team/config.ajax' => array(
+    '/%s/module/team/config.ajax' => array(
         'controller' => 'Admin:Config@saveAction',
         'disallow' => array('guest')
     ),
@@ -23,33 +23,33 @@ return array(
         'controller' => 'Team@indexAction'
     ),
     
-    '/admin/module/team' => array(
+    '/%s/module/team' => array(
         'controller' => 'Admin:Member@gridAction'
     ),
     
-    '/admin/module/team/page/(:var)' => array(
+    '/%s/module/team/page/(:var)' => array(
         'controller' => 'Admin:Member@gridAction'
     ),
     
-    '/admin/module/team/tweak' => array(
+    '/%s/module/team/tweak' => array(
         'controller' => 'Admin:Member@tweakAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/team/delete/(:var)' => array(
+    '/%s/module/team/delete/(:var)' => array(
         'controller' => 'Admin:Member@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/team/add' => array(
+    '/%s/module/team/add' => array(
         'controller' => 'Admin:Member@addAction'
     ),
     
-    '/admin/module/team/edit/(:var)' => array(
+    '/%s/module/team/edit/(:var)' => array(
         'controller' => 'Admin:Member@editAction'
     ),
     
-    '/admin/module/team/save' => array(
+    '/%s/module/team/save' => array(
         'controller' => 'Admin:Member@saveAction',
         'disallow' => array('guest')
     )
