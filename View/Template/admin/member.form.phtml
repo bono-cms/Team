@@ -10,9 +10,8 @@ use Krystal\Form\Element;
     <?php echo Element::hidden('team[id]', $member->getId()); ?>
     <?php echo Element::hidden('team[photo]', $member->getPhoto()); ?>
 	
-	<div class="well clearfix">
-		
-		<div class="form-group clearfix">
+	<div class="well">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
 			<div class="col-lg-10">
 				<div class="input-group">
@@ -22,14 +21,14 @@ use Krystal\Form\Element;
 			</div>
 		</div>
 		
-		<div class="form-group clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 			<div class="col-lg-10">
 				<?php echo Element::textarea('team[description]', $member->getDescription(), array('data-wysiwyg' => 'true')); ?>
 			</div>
 		</div>
 		
-		<div class="form-group clearfix clearfix">
+		<div class="form-group">
 			<label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
 			<div class="col-lg-10">
 				
@@ -49,14 +48,14 @@ use Krystal\Form\Element;
 		</div>
 		
 		<div class="options">
-			<div class="form-group clearfix">
+			<div class="form-group">
 				<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 				<div class="col-lg-10">
 					<?php echo Element::checkbox('team[published]', $member->getPublished(), array('class' => 'form-control')); ?>
 				</div>
 			</div>
 			
-			<div class="form-group clearfix">
+			<div class="form-group">
 				<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
 				<div class="col-lg-10">
                     <?php echo Element::number('team[order]', $member->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
