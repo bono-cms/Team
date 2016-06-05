@@ -62,18 +62,18 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     protected function toEntity(array $member)
     {
         $imageBag = clone $this->imageManager->getImageBag();
-        $imageBag->setId($member['id'])
+        $imageBag->setId((int) $member['id'])
                  ->setCover($member['photo']);
 
         $entity = new VirtualEntity();
         $entity->setImageBag($imageBag)
-                  ->setId((int) $member['id'])
-                  ->setName(Filter::escape($member['name']))
-                  ->setDescription(Filter::escapeContent($member['description']))
-                  ->setPhoto(Filter::escape($member['photo']))
-                  ->setPublished((bool) $member['published'])
-                  ->setOrder((int) $member['order']);
-        
+                  ->setId($member['id'], VirtualEntity::FILTER_INT)
+                  ->setName($member['name'], VirtualEntity::FILTER_TAGS)
+                  ->setDescription($member['description'], VirtualEntity::FILTER_SAFE_TAGS)
+                  ->setPhoto($member['photo'], VirtualEntity::FILTER_TAGS)
+                  ->setPublished($member['published'], VirtualEntity::FILTER_BOOL)
+                  ->setOrder($member['order'], VirtualEntity::FILTER_INT);
+
         return $entity;
     }
 
