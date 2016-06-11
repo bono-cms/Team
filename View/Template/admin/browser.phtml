@@ -28,7 +28,7 @@ use Krystal\Form\Element;
 	</div>
 </div>
 
-<?php $this->loadBlock('items-per-page', array('caption' => 'Team')); ?>
+<?php $this->loadPartial('items-per-page', array('caption' => 'Team')); ?>
 
 <form>
 	<div class="table-responsive">
@@ -87,4 +87,4 @@ use Krystal\Form\Element;
 	</div>
 </form>
 
-<?php $this->loadBlock('paginator'); ?>
+<?php $this->loadPartial('paginator'); ?>
