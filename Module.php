@@ -22,12 +22,11 @@ final class Module extends AbstractCmsModule
     /**
      * Returns image manager service
      * 
+     * @param \Krystal\Stdlib\VirtualEntity $config
      * @return \Krystal\Image\Tool\ImageManager
      */
-    private function getImageManager()
+    private function getImageManager(VirtualEntity $config)
     {
-        $config = $this->getConfigEntity();
-
         $plugins = array(
             'thumb' => array(
                 'dimensions' => array(
@@ -52,16 +51,18 @@ final class Module extends AbstractCmsModule
      */
     public function getServiceProviders()
     {
+        $config = $this->createConfigService();
+
         $teamManager = new TeamManager(
             $this->getMapper('/Team/Storage/MySQL/TeamMapper'), 
-            $this->getImageManager(), 
+            $this->getImageManager($config->getEntity()), 
             $this->getHistoryManager()
         );
 
         return array(
             'siteService' => new SiteService($teamManager),
             'teamManager' => $teamManager,
-            'configManager' => $this->getConfigService()
+            'configManager' => $config
         );
     }
 }

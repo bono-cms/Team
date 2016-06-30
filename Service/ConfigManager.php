@@ -11,19 +11,21 @@
 
 namespace Team\Service;
 
-use Krystal\Config\File\AbstractConfigManager;
-use Krystal\Security\Filter;
+use Krystal\Config\ConfigModuleService;
+use Krystal\Stdlib\VirtualEntity;
 
-final class ConfigManager extends AbstractConfigManager
+final class ConfigManager extends ConfigModuleService
 {
     /**
      * {@inheritDoc}
      */
-    protected function populate()
+    public function getEntity()
     {
-        $entity = $this->getEntity();
-        $entity->setPerPageCount((int) $this->get('per_page_count', 20))
-               ->setCoverWidth((float) $this->get('cover_width', 200))
-               ->setCoverHeight((float) $this->get('cover_height', 200));
+        $entity = new VirtualEntity();
+        $entity->setPerPageCount($this->get('per_page_count', 20), VirtualEntity::FILTER_INT)
+               ->setCoverWidth($this->get('cover_width', 200), VirtualEntity::FILTER_INT)
+               ->setCoverHeight($this->get('cover_height', 200), VirtualEntity::FILTER_INT);
+
+        return $entity;
     }
 }
