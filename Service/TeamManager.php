@@ -68,9 +68,9 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
         $entity = new VirtualEntity();
         $entity->setImageBag($imageBag)
                   ->setId($member['id'], VirtualEntity::FILTER_INT)
-                  ->setName($member['name'], VirtualEntity::FILTER_TAGS)
+                  ->setName($member['name'], VirtualEntity::FILTER_HTML)
                   ->setDescription($member['description'], VirtualEntity::FILTER_SAFE_TAGS)
-                  ->setPhoto($member['photo'], VirtualEntity::FILTER_TAGS)
+                  ->setPhoto($member['photo'], VirtualEntity::FILTER_HTML)
                   ->setPublished($member['published'], VirtualEntity::FILTER_BOOL)
                   ->setOrder($member['order'], VirtualEntity::FILTER_INT);
 
