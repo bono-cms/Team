@@ -31,7 +31,7 @@ final class Team extends AbstractController
         if ($page !== false) {
             // Load asset plugins and tweak breadcrumbs
             $this->loadSitePlugins();
-            $this->view->getBreadcrumbBag()->addOne($page->getTitle());
+            $this->view->getBreadcrumbBag()->addOne($page->getName());
 
             $teamManager = $this->getModuleService('teamManager');
             $config = $this->getModuleService('configManager')->getEntity();
