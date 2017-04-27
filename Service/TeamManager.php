@@ -13,7 +13,6 @@ namespace Team\Service;
 
 use Cms\Service\AbstractManager;
 use Cms\Service\HistoryManagerInterface;
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Security\Filter;
 use Team\Storage\TeamMapperInterface;
@@ -65,14 +64,14 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
         $imageBag->setId((int) $member['id'])
                  ->setCover($member['photo']);
 
-        $entity = new VirtualEntity();
+        $entity = new TeamEntity();
         $entity->setImageBag($imageBag)
-                  ->setId($member['id'], VirtualEntity::FILTER_INT)
-                  ->setName($member['name'], VirtualEntity::FILTER_HTML)
-                  ->setDescription($member['description'], VirtualEntity::FILTER_SAFE_TAGS)
-                  ->setPhoto($member['photo'], VirtualEntity::FILTER_HTML)
-                  ->setPublished($member['published'], VirtualEntity::FILTER_BOOL)
-                  ->setOrder($member['order'], VirtualEntity::FILTER_INT);
+                  ->setId($member['id'], TeamEntity::FILTER_INT)
+                  ->setName($member['name'], TeamEntity::FILTER_HTML)
+                  ->setDescription($member['description'], TeamEntity::FILTER_SAFE_TAGS)
+                  ->setPhoto($member['photo'], TeamEntity::FILTER_HTML)
+                  ->setPublished($member['published'], TeamEntity::FILTER_BOOL)
+                  ->setOrder($member['order'], TeamEntity::FILTER_INT);
 
         return $entity;
     }
@@ -239,12 +238,10 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
         $name = Filter::escape($this->teamMapper->fetchNameById($id));
 
         if ($this->delete($id)) {
-
             $this->track('Member "%s" has been removed', $name);
             return true;
 
         } else {
-
             return false;
         }
     }
