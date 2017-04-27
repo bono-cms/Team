@@ -33,7 +33,7 @@ use Krystal\Form\Element;
 			<div class="col-lg-10">
 				
 				<?php if ($member->getPhoto()): ?>
-				<img class="img-responsive" src="<?php echo $member->getImageBag()->getUrl('400x200');?>" />
+				<img class="img-responsive" src="<?php echo $member->getImageUrl('400x200');?>" />
 				
 				<?php else: ?>
 				<img data-image="preview" />
