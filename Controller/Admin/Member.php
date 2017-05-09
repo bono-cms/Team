@@ -38,7 +38,6 @@ final class Member extends AbstractController
     {
         // Load view plugins
         $this->view->getPluginBag()
-                   ->appendScript('@Team/admin/member.form.js')
                    ->load(array($this->getWysiwygPluginName(), 'preview'));
 
         // Append breadcrumbs
