@@ -87,12 +87,14 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     }
 
     /**
-     * Returns shared select query
+     * Fetch all members optionally filtered by pagination
      * 
-     * @param boolean $published
+     * @param boolean $published Whether to fetch only published
+     * @param integer $page Page number
+     * @param integer $itemsPerPage Per page count
      * @return \Krystal\Db\Sql\Db
      */
-    private function getSelectQuery($published)
+    public function fetchAll($published, $page, $itemsPerPage)
     {
         // Build first fragment
         $db = $this->createEntitySelect($this->getColumns())
@@ -106,57 +108,11 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
                ->desc();
         }
 
-        return $db;
-    }
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginate($page, $itemsPerPage);
+        }
 
-    /**
-     * Fetches all published records
-     * 
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllPublishedByPage($page, $itemsPerPage)
-    {
-        return $this->getSelectQuery(true)
-                    ->paginate($page, $itemsPerPage)
-                    ->queryAll();
-    }
-
-    /**
-     * Fetches all records
-     * 
-     * @return array
-     */
-    public function fetchAll()
-    {
-        return $this->getSelectQuery(false)
-                    ->queryAll();
-    }
-
-    /**
-     * Fetches all published records
-     * 
-     * @return array
-     */
-    public function fetchAllPublished()
-    {
-        return $this->getSelectQuery(true)
-                    ->queryAll();
-    }
-
-    /**
-     * Fetches all members filtered by pagination
-     * 
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllByPage($page, $itemsPerPage)
-    {
-        return $this->getSelectQuery(false)
-                    ->paginate($page, $itemsPerPage)
-                    ->queryAll();
+        return $db->queryAll();
     }
 
     /**

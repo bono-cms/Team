@@ -37,7 +37,7 @@ final class Team extends AbstractController
             $config = $this->getModuleService('configManager')->getEntity();
 
             // Fetch all members
-            $members = $teamManager->fetchAllPublishedByPage($pageNumber, $config->getPerPageCount());
+            $members = $teamManager->fetchAll(true, $pageNumber, $config->getPerPageCount());
 
             $paginator = $teamManager->getPaginator();
             $this->preparePaginator($paginator, $code, $slug, $pageNumber);

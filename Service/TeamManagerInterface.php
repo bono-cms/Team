@@ -14,13 +14,6 @@ namespace Team\Service;
 interface TeamManagerInterface
 {
     /**
-     * Fetches all published member entities
-     * 
-     * @return array
-     */
-    public function fetchAllPublished();
-
-    /**
      * Returns prepared paginator's instance
      * 
      * @return \Krystal\Paginate\Paginator
@@ -30,20 +23,12 @@ interface TeamManagerInterface
     /**
      * Fetches all member entities filtered by pagination
      * 
+     * @param boolean $published Whether to fetch published ones or not
      * @param integer $page
      * @param integer $itemsPerPage
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage);
-
-    /**
-     * Fetches all published member entities filtered by pagination
-     * 
-     * @param integer $page Page number
-     * @param integer $itemsPerPage Items per page count
-     * @return array
-     */
-    public function fetchAllPublishedByPage($page, $itemsPerPage);
+    public function fetchAll($published, $page, $itemsPerPage);
 
     /**
      * Returns last member id

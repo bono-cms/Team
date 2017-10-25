@@ -40,36 +40,14 @@ interface TeamMapperInterface
     public function updatePublishedById($id, $published);
 
     /**
-     * Fetches all published records
+     * Fetch all members optionally filtered by pagination
      * 
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
+     * @param boolean $published Whether to fetch only published
+     * @param integer $page Page number
+     * @param integer $itemsPerPage Per page count
+     * @return \Krystal\Db\Sql\Db
      */
-    public function fetchAllPublishedByPage($page, $itemsPerPage);
-
-    /**
-     * Fetches all records
-     * 
-     * @return array
-     */
-    public function fetchAll();
-
-    /**
-     * Fetches all published records
-     * 
-     * @return array
-     */
-    public function fetchAllPublished();
-
-    /**
-     * Fetches all members filtered by pagination
-     * 
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllByPage($page, $itemsPerPage);
+    public function fetchAll($published, $page, $itemsPerPage);
 
     /**
      * Fetches member data by their associated ID

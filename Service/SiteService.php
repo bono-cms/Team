@@ -38,6 +38,6 @@ final class SiteService implements SiteServiceInterface
      */
     public function getAll()
     {
-        return $this->teamManager->fetchAllPublished();
+        return $this->teamManager->fetchAll(true, null, null);
     }
 }
