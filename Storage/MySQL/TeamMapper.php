@@ -26,6 +26,32 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public static function getTranslationTable()
+    {
+        return TeamTranslationMapper::getTableName();
+    }
+
+    /**
+     * Returns shared columns
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::getFullColumnName('id'),
+            self::getFullColumnName('order'),
+            self::getFullColumnName('photo'),
+            self::getFullColumnName('published'),
+            TeamTranslationMapper::getFullColumnName('lang_id'),
+            TeamTranslationMapper::getFullColumnName('name'),
+            TeamTranslationMapper::getFullColumnName('description'),
+        );
+    }
+
+    /**
      * Fetches a name by associated id
      * 
      * @param string $id Member's id
@@ -61,39 +87,6 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     }
 
     /**
-     * Updates a member
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function update(array $input)
-    {
-        return $this->persist($input);
-    }
-
-    /**
-     * Adds a member
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function insert(array $input)
-    {
-        return $this->persist($this->getWithLang($input));
-    }
-
-    /**
-     * Deletes a record by its associated id
-     * 
-     * @param string $id
-     * @return boolean
-     */
-    public function deleteById($id)
-    {
-        return $this->deleteByPk($id);
-    }
-
-    /**
      * Returns shared select query
      * 
      * @param boolean $published
@@ -102,17 +95,14 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     private function getSelectQuery($published)
     {
         // Build first fragment
-        $db = $this->db->select('*')
-                       ->from(static::getTableName())
-                       ->whereEquals('lang_id', $this->getLangId());
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(TeamTranslationMapper::getFullColumnName('lang_id'), $this->getLangId());
 
         if ($published === true) {
-
-            $db->andWhereEquals('published', '1')
+            $db->andWhereEquals(self::getFullColumnName('published'), '1')
                ->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
         } else {
-
-            $db->orderBy('id')
+            $db->orderBy(self::getFullColumnName('id'))
                ->desc();
         }
 
@@ -170,13 +160,14 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     }
 
     /**
-     * Fetches a record by its associated id
+     * Fetches member data by their associated ID
      * 
-     * @param string $id
+     * @param string $id Member ID
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations)
     {
-        return $this->findByPk($id);
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
     }
 }

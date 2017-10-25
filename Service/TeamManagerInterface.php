@@ -72,9 +72,10 @@ interface TeamManagerInterface
      * Fetches member's entity by associated id
      * 
      * @param string $id Member's id
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id);
+    public function fetchById($id, $withTranslations);
 
     /**
      * Removes a member by associated id

@@ -67,6 +67,7 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
         $entity = new TeamEntity();
         $entity->setImageBag($imageBag)
                   ->setId($member['id'], TeamEntity::FILTER_INT)
+                  ->setLangId($member['lang_id'], TeamEntity::FILTER_INT)
                   ->setName($member['name'], TeamEntity::FILTER_HTML)
                   ->setDescription($member['description'], TeamEntity::FILTER_SAFE_TAGS)
                   ->setPhoto($member['photo'], TeamEntity::FILTER_HTML)
@@ -140,12 +141,12 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     {
         // Ensure we have a file
         if (!empty($input['files'])) {
-
             $file =& $input['files']['file'];
             $this->filterFileInput($file);
 
             // A reference to form data
             $form =& $input['data']['team'];
+            $translations =& $input['data']['translation'];
 
             // Append new photo key into data container
             $form['photo'] = $file[0]->getName();
@@ -153,10 +154,10 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
             // Safe type-casting
             $form['order'] = (int) $form['order'];
 
-            $this->track('Member "%s" has been added', $form['name']);
+            // $this->track('Member "%s" has been added', $form['name']);
 
             // Insert must be first, so that we can get the last id
-            return $this->teamMapper->insert($form) && $this->imageManager->upload($this->getLastId(), $file);
+            return $this->teamMapper->saveEntity($form, $translations) && $this->imageManager->upload($this->getLastId(), $file);
         }
     }
 
@@ -170,6 +171,7 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     {
         // Just a reference
         $form =& $input['data']['team'];
+        $translations =& $input['data']['translation'];
 
         if (!empty($input['files'])) {
             $file =& $input['files']['file'];
@@ -195,19 +197,24 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
             }
         }
 
-        $this->track('Member "%s" has been updated', $form['name']);
-        return $this->teamMapper->update($form);
+        // $this->track('Member "%s" has been updated', $form['name']);
+        return $this->teamMapper->saveEntity($form, $translations);
     }
 
     /**
      * Fetches member's entity by associated id
      * 
      * @param string $id Member's id
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations)
     {
-        return $this->prepareResult($this->teamMapper->fetchById($id));
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->teamMapper->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->teamMapper->fetchById($id, false));
+        }
     }
 
     /**
@@ -230,7 +237,7 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
      */
     private function delete($id)
     {
-        return $this->teamMapper->deleteById($id) && $this->imageManager->delete($id);
+        return $this->teamMapper->deleteEntity($id) && $this->imageManager->delete($id);
     }
 
     /**
@@ -241,10 +248,10 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
      */
     public function deleteById($id)
     {
-        $name = Filter::escape($this->teamMapper->fetchNameById($id));
+        //$name = Filter::escape($this->teamMapper->fetchNameById($id));
 
         if ($this->delete($id)) {
-            $this->track('Member "%s" has been removed', $name);
+            //$this->track('Member "%s" has been removed', $name);
             return true;
 
         } else {

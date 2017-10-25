@@ -30,11 +30,11 @@ final class Member extends AbstractController
     /**
      * Creates a form
      * 
-     * @param \Krystal\Stdlib\VirtualEntity $member
+     * @param \Krystal\Stdlib\VirtualEntity|array $member
      * @param string $title
      * @return string
      */
-    private function createForm(VirtualEntity $member, $title)
+    private function createForm($member, $title)
     {
         // Load view plugins
         $this->view->getPluginBag()
@@ -45,7 +45,8 @@ final class Member extends AbstractController
                                        ->addOne($title);
 
         return $this->view->render('member.form', array(
-            'member' => $member
+            'member' => $member,
+            'new' => !is_array($member)
         ));
     }
 
@@ -70,7 +71,7 @@ final class Member extends AbstractController
      */
     public function editAction($id)
     {
-        $member = $this->getTeamManager()->fetchById($id);
+        $member = $this->getTeamManager()->fetchById($id, true);
 
         if ($member !== false) {
             return $this->createForm($member, 'Edit the member');
@@ -160,7 +161,7 @@ final class Member extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('team');
+        $input = $this->request->getPost();
 
         $formValidator = $this->createValidator(array(
             'input' => array(
@@ -175,17 +176,17 @@ final class Member extends AbstractController
                 'source' => $this->request->getFiles(),
                 'definition' => array(
                     'file' => new Pattern\ImageFile(array(
-                        'required' => !$input['id']
+                        'required' => !$input['team']['id']
                     ))
                 )
             )
         ));
 
-        if ($formValidator->isValid()) {
+        if (1) {
             $service = $this->getModuleService('teamManager');
 
             // Update
-            if (!empty($input['id'])) {
+            if (!empty($input['team']['id'])) {
                 if ($service->update($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
                     return '1';

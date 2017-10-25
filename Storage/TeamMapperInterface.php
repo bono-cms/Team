@@ -40,30 +40,6 @@ interface TeamMapperInterface
     public function updatePublishedById($id, $published);
 
     /**
-     * Updates a member
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function update(array $input);
-
-    /**
-     * Adds a member
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function insert(array $input);
-
-    /**
-     * Deletes a record by its associated id
-     * 
-     * @param string $id
-     * @return boolean
-     */
-    public function deleteById($id);
-
-    /**
      * Fetches all published records
      * 
      * @param integer $page
@@ -96,10 +72,11 @@ interface TeamMapperInterface
     public function fetchAllByPage($page, $itemsPerPage);
 
     /**
-     * Fetches a record by its associated id
+     * Fetches member data by their associated ID
      * 
-     * @param string $id
+     * @param string $id Member ID
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id);
+    public function fetchById($id, $withTranslations);
 }
