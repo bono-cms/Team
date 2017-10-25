@@ -1,79 +1,86 @@
-<?php defined('KRYSTAL') or die; ?>
 <?php
 
 use Krystal\Form\Element;
+use Cms\Service\LanguageManager;
+
+defined('KRYSTAL') or die;
 
 ?>
 
 <form data-group="team">
-	
-    <?php echo Element::hidden('team[id]', $member->getId()); ?>
-    <?php echo Element::hidden('team[photo]', $member->getPhoto()); ?>
-	
-	<div class="well">
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
-			<div class="col-lg-10">
-				<div class="input-group">
-                    <?php echo Element::text('team[name]', $member->getName(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's name"))); ?>
-					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-				</div>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
-			<div class="col-lg-10">
-				<?php echo Element::textarea('team[description]', $member->getDescription(), array('data-wysiwyg' => 'true')); ?>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
-			<div class="col-lg-10">
-				<?php if ($member->getPhoto()): ?>
-				<p><img class="img-responsive" src="<?php echo $member->getImageUrl('400x200');?>" /></p>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#advice" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Member'); ?></a></li>
+        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
+	</ul>
 
-				<?php else: ?>
-                <p><img data-image="preview" /></p>
+    <div class="tab-content">
+        <div class="tab-pane fade in active" id="advice" role="tabpanel">
+            <div class="well">
+                <?php echo Element::hidden('team[id]', $member->getId()); ?>
+                <?php echo Element::hidden('team[photo]', $member->getPhoto()); ?>
 
-				<?php endif; ?>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <?php echo Element::text('team[name]', $member->getName(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's name"))); ?>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        </div>
+                    </div>
+                </div>
 
-                <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
-			</div>
-		</div>
-		
-		<div class="options">
-			<div class="form-group">
-				<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
-				<div class="col-lg-10">
-					<?php echo Element::checkbox('team[published]', $member->getPublished(), array('class' => 'form-control')); ?>
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
-				<div class="col-lg-10">
-                    <?php echo Element::number('team[order]', $member->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<?php if ($member->getId()): ?>
-	
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::textarea('team[description]', $member->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade in" id="configuration" role="tabpanel">
+            <div class="well">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::checkbox('team[published]', $member->getPublished(), array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::number('team[order]', $member->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
+                    <div class="col-lg-10">
+                        <?php if ($member->getPhoto()): ?>
+                        <p><img class="img-responsive" src="<?php echo $member->getImageUrl('400x200');?>" /></p>
+
+                        <?php else: ?>
+                        <p><img data-image="preview" /></p>
+
+                        <?php endif; ?>
+
+                        <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                        <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <?php if ($member->getId()): ?>
     <button data-button="save" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-	<button data-button="save-create" data-back-url="<?php echo $this->url('Team:Admin:Member@addAction'); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
-	
+    <button data-button="save-create" data-back-url="<?php echo $this->url('Team:Admin:Member@addAction'); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
 	<?php else: ?>
-	
-	<button data-button="add" data-back-url="<?php echo $this->url('Team:Admin:Member@editAction', null); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+
+    <button data-button="add" data-back-url="<?php echo $this->url('Team:Admin:Member@editAction', null); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
 	<button data-button="add-create" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Create new'); ?></button>
-	
 	<?php endif; ?>
-	
-	<button data-button="options" class="btn btn-primary"><i class="glyphicon glyphicon-open"></i> <?php $this->show('More options'); ?></button>
+
 	<button data-button="cancel" data-url="<?php echo $this->url('Team:Admin:Member@gridAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
-	
 </form>
