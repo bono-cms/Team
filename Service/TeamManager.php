@@ -257,36 +257,13 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     }
 
     /**
-     * Update orders by their associated ids
+     * Update settings
      * 
-     * @param array $orders
+     * @param array $settings
      * @return boolean
      */
-    public function updateOrders(array $orders)
+    public function updateSettings($settings)
     {
-        foreach ($orders as $id => $order) {
-            if (!$this->teamMapper->updateOrderById($id, $order)) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-
-    /**
-     * Update published state by their associated ids
-     * 
-     * @param array $pair
-     * @return boolean
-     */
-    public function updatePublished(array $pair)
-    {
-        foreach ($pair as $id => $published) {
-            if (!$this->teamMapper->updatePublishedById($id, $published)) {
-                return false;
-            }
-        }
-        
-        return true;
+        return $this->teamMapper->updateSettings($settings);
     }
 }

@@ -63,27 +63,14 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     }
 
     /**
-     * Updates an order by its associated id
+     * Update settings
      * 
-     * @param string $id
-     * @param string $order
+     * @param array $settings
      * @return boolean
      */
-    public function updateOrderById($id, $order)
+    public function updateSettings($settings)
     {
-        return $this->updateColumnByPk($id, 'order', $order);
-    }
-
-    /**
-     * Update published state by its associated id
-     * 
-     * @param string $id
-     * @param string $published Either 0 or 1
-     * @return boolean
-     */
-    public function updatePublishedById($id, $published)
-    {
-        return $this->updateColumnByPk($id, 'published', $published);
+        return $this->updateColumns($settings, array('order', 'published'));
     }
 
     /**

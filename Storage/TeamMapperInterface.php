@@ -22,22 +22,12 @@ interface TeamMapperInterface
     public function fetchNameById($id);
 
     /**
-     * Updates an order by its associated id
+     * Update settings
      * 
-     * @param string $id
-     * @param string $order
+     * @param array $settings
      * @return boolean
      */
-    public function updateOrderById($id, $order);
-
-    /**
-     * Update published state by its associated id
-     * 
-     * @param string $id
-     * @param string $published Either 0 or 1
-     * @return boolean
-     */
-    public function updatePublishedById($id, $published);
+    public function updateSettings($settings);
 
     /**
      * Fetch all members optionally filtered by pagination

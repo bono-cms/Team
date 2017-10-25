@@ -141,17 +141,11 @@ final class Member extends AbstractController
      */
     public function tweakAction()
     {
-        if ($this->request->hasPost('published', 'order')) {
-            $published = $this->request->getPost('published');
-            $orders = $this->request->getPost('order');
+        $teamManager = $this->getTeamManager();
+        $teamManager->updateSettings($this->request->getPost());
 
-            $teamManager = $this->getTeamManager();
-            $teamManager->updateOrders($orders);
-            $teamManager->updatePublished($published);
-
-            $this->flashBag->set('success', 'Settings have been updated successfully');
-            return '1';
-        }
+        $this->flashBag->set('success', 'Settings have been updated successfully');
+        return '1';
     }
 
     /**

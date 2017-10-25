@@ -79,18 +79,10 @@ interface TeamManagerInterface
     public function deleteByIds(array $ids);
 
     /**
-     * Update orders by their associated ids
+     * Update settings
      * 
-     * @param array $orders
+     * @param array $settings
      * @return boolean
      */
-    public function updateOrders(array $orders);
-
-    /**
-     * Update published state by their associated ids
-     * 
-     * @param array $pair
-     * @return boolean
-     */
-    public function updatePublished(array $pair);
+    public function updateSettings($settings);
 }
