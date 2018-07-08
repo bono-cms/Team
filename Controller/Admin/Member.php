@@ -45,8 +45,7 @@ final class Member extends AbstractController
                                        ->addOne($title);
 
         return $this->view->render('member.form', array(
-            'member' => $member,
-            'new' => !is_array($member)
+            'member' => $member
         ));
     }
 
