@@ -41,13 +41,13 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     private function getColumns()
     {
         return array(
-            self::getFullColumnName('id'),
-            self::getFullColumnName('order'),
-            self::getFullColumnName('photo'),
-            self::getFullColumnName('published'),
-            TeamTranslationMapper::getFullColumnName('lang_id'),
-            TeamTranslationMapper::getFullColumnName('name'),
-            TeamTranslationMapper::getFullColumnName('description'),
+            self::column('id'),
+            self::column('order'),
+            self::column('photo'),
+            self::column('published'),
+            TeamTranslationMapper::column('lang_id'),
+            TeamTranslationMapper::column('name'),
+            TeamTranslationMapper::column('description'),
         );
     }
 
@@ -85,13 +85,13 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
     {
         // Build first fragment
         $db = $this->createEntitySelect($this->getColumns())
-                   ->whereEquals(TeamTranslationMapper::getFullColumnName('lang_id'), $this->getLangId());
+                   ->whereEquals(TeamTranslationMapper::column('lang_id'), $this->getLangId());
 
         if ($published === true) {
-            $db->andWhereEquals(self::getFullColumnName('published'), '1')
+            $db->andWhereEquals(self::column('published'), '1')
                ->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
         } else {
-            $db->orderBy(self::getFullColumnName('id'))
+            $db->orderBy(self::column('id'))
                ->desc();
         }
 
