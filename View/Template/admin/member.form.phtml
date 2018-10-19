@@ -88,7 +88,7 @@ defined('KRYSTAL') or die;
         </div>
     </div>
 
-    <?php if (!$new): ?>
+    <?php if (!is_object($member)): ?>
     <button data-button="save" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
     <button data-button="save-create" data-back-url="<?php echo $this->url('Team:Admin:Member@addAction'); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
 	<?php else: ?>
