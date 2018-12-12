@@ -121,20 +121,18 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
         // Ensure we have a file
         if (!empty($input['files'])) {
             $file =& $input['files']['file'];
-            $this->filterFileInput($file);
 
             // A reference to form data
             $form =& $input['data']['team'];
             $translations =& $input['data']['translation'];
 
             // Append new photo key into data container
-            $form['photo'] = $file[0]->getName();
+            $form['photo'] = $file->getUniqueName();
 
             // Safe type-casting
             $form['order'] = (int) $form['order'];
 
             // $this->track('Member "%s" has been added', $form['name']);
-
             // Insert must be first, so that we can get the last id
             return $this->teamMapper->saveEntity($form, $translations) && $this->imageManager->upload($this->getLastId(), $file);
         }
@@ -157,12 +155,8 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
 
             // When overriding a photo, we need to remove old one from the file-system
             if ($this->imageManager->delete($form['id'], $form['photo'])) {
-
-                // Filter names
-                $this->filterFileInput($file);
-
                 // Now upload a new one
-                $form['photo'] = $file[0]->getName();
+                $form['photo'] = $file->getUniqueName();
 
                 // Safe type-casting
                 $form['order'] = (int) $form['order'];
