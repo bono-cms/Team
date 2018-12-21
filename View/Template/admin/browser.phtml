@@ -1,7 +1,10 @@
-<?php defined('KRYSTAL') or die; ?>
 <?php
 
+use Krystal\Grid\Grid;
 use Krystal\Form\Element;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
 
 ?>
 
@@ -32,58 +35,65 @@ use Krystal\Form\Element;
 
 <form>
 	<div class="table-responsive">
-		<table class="table table-hover table-bordered table-striped table-condensed">
-			<thead>
-				<tr>
-					<th class="text-center">
-						<?php if (!empty($members)): ?>
-						<input type="checkbox" />
-						<?php endif; ?>
-					</th>
-					<th class="text-center"><?php $this->show('#'); ?></th>
-					<th class="text-center"><?php $this->show('Photo'); ?></th>
-					<th class="text-center"><?php $this->show('Name'); ?></th>
-					<th class="text-center"><?php $this->show('Order'); ?></th>
-					<th class="text-center"><?php $this->show('Published'); ?></th>
-					<th class="text-center"><?php $this->show('Actions'); ?></th>
-				</tr>
-			</thead>
-			
-			<?php if (!empty($members)): ?>
-			<tbody>
-				<?php foreach ($members as $member): ?>
-				<tr>
-					<td class="text-center">
-						<input type="checkbox" name="toDelete[<?php echo $member->getId(); ?>]" />
-					</td>
-					<td class="text-center text-muted"><?php echo $member->getId(); ?></td>
-					<td>
-						<img class="img-responsive center-block" src="<?php echo $member->getImageUrl('400x200'); ?>" />
-					</td>
-					<td class="text-center"><?php echo $member->getName(); ?></td>
-					<td class="text-center col-md-1">
-                        <?php echo Element::number(sprintf('order[%s]', $member->getId()), $member->getOrder(), array('class' => 'form-control', 'min' => '0')); ?>
-					</td>
-					<td class="text-center">
-						<?php echo Element::checkbox(sprintf('published[%s]', $member->getId()), $member->getPublished()); ?>
-					</td>
-					<td class="text-center">
-						<a data-button="edit" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit the member'); ?>" href="<?php echo $this->url('Team:Admin:Member@editAction', $member->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-						<a data-button="delete" data-url="<?php echo $this->url('Team:Admin:Member@deleteAction', $member->getId()); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove this member'); ?>" href="#" ><i class="glyphicon glyphicon-remove"></i></a>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-			<?php endif; ?>
-			
-		</table>
-		
+        <?= Grid::render($members, array(
+            'batch' => true,
+            'pk' => 'id',
+            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+            'columns' => array(
+                array(
+                    'column' => 'id',
+                    'label' => '#'
+                ),
+
+                array(
+                    'column' => 'photo',
+                    'value' => function($member){
+                        return Element::image($member->getImageUrl('400x200'), array('class' => 'img-responsive center-block'));
+                    }
+                ),
+
+                array(
+                    'column' => 'name'
+                ),
+
+                array(
+                    'column' => 'order',
+                    'value' => function($member){
+                        return Element::number(sprintf('order[%s]', $member->getId()), $member->getOrder(), array('class' => 'form-control', 'min' => '0'));
+                    }
+                ),
+
+                array(
+                    'column' => 'published',
+                    'value' => function($member){
+                        return Element::checkbox(sprintf('published[%s]', $member->getId()), $member->getPublished());
+                    }
+                )
+            ),
+
+            'actions' => array(
+                'edit' => function($member){
+                    return Icon::edit(
+                        $this->url('Team:Admin:Member@editAction', $member->getId()),
+                        $this->translate('Edit the member')
+                    );
+                },
+
+                'remove' => function($member){
+                    return Icon::remove(
+                        $this->url('Team:Admin:Member@deleteAction', $member->getId()),
+                        $this->translate('Remove this member')
+                    );
+                }
+            )
+
+        ), $this->translator); ?>
+
 		<?php if (empty($members)): ?>
 		<div class="center-block">
-			<h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No members'); ?></h2>
+            <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No members'); ?></h2>
 		</div>
 		<?php endif; ?>
-		
 	</div>
 </form>
 
