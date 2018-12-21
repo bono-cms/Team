@@ -88,14 +88,12 @@ defined('KRYSTAL') or die;
         </div>
     </div>
 
-    <?php if (!is_object($member)): ?>
-    <button data-button="save" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-    <button data-button="save-create" data-back-url="<?php echo $this->url('Team:Admin:Member@addAction'); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
-	<?php else: ?>
+    <?php $this->loadPartial('actions', array(
+        'new' => !is_object($member),
+        'add' => 'Team:Admin:Member@addAction',
+        'edit' => 'Team:Admin:Member@editAction',
+        'save' => 'Team:Admin:Member@saveAction',
+        'cancel' => 'Team:Admin:Member@gridAction'
+    )); ?>
 
-    <button data-button="add" data-back-url="<?php echo $this->url('Team:Admin:Member@editAction', null); ?>" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-	<button data-button="add-create" data-url="<?php echo $this->url('Team:Admin:Member@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Create new'); ?></button>
-	<?php endif; ?>
-
-	<button data-button="cancel" data-url="<?php echo $this->url('Team:Admin:Member@gridAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
