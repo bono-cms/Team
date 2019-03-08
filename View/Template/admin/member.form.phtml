@@ -7,46 +7,44 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="team">
+<form class="card" data-group="team" autocomplete="off">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#advice" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Member'); ?></a></li>
-        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
+        <li role="presentation" class="nav-item active"><a class="nav-link" href="#member" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Member'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
 	</ul>
 
     <div class="tab-content">
-        <div class="tab-pane fade in active" id="advice" role="tabpanel">
-            <div class="well">
-                <?php $this->loadPartial('language-tabs'); ?>
+        <div class="tab-pane fade in active" id="member" role="tabpanel">
+            <?php $this->loadPartial('language-tabs'); ?>
 
-                <div class="tab-content">
-                    <?php foreach ($languages as $index => $language): ?>
-                    <div class="tab-pane fade in <?php echo $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
-                        <?php $entity = LanguageManager::findByLangId($language->getId(), $member); ?>
+            <div class="tab-content">
+                <?php foreach ($languages as $index => $language): ?>
+                <div class="tab-pane fade in <?php echo $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                    <?php $entity = LanguageManager::findByLangId($language->getId(), $member); ?>
 
-                        <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                        <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                        <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
 
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
-                            <div class="col-lg-10">
-                                <div class="input-group">
-                                    <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's name"))); ?>
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
-                            <div class="col-lg-10">
-                                <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                        <div class="col-lg-10">
+                            <div class="input-group">
+                                <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's name"))); ?>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                             </div>
                         </div>
                     </div>
-                    <?php endforeach; ?>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                        <div class="col-lg-10">
+                            <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
+                        </div>
+                    </div>
                 </div>
+                <?php endforeach; ?>
             </div>
         </div>
 
@@ -54,35 +52,33 @@ defined('KRYSTAL') or die;
             <?php echo Element::hidden('team[id]', $entity->getId()); ?>
             <?php echo Element::hidden('team[photo]', $entity->getPhoto()); ?>
 
-            <div class="well">
-                <div class="form-group">
-                    <label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
-                    <div class="col-lg-10">
-                        <?php echo Element::checkbox('team[published]', $entity->getPublished(), array('class' => 'form-control')); ?>
-                    </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
+                <div class="col-lg-10">
+                    <?php echo Element::checkbox('team[published]', $entity->getPublished(), array('class' => 'form-control')); ?>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
-                    <div class="col-lg-10">
-                        <?php echo Element::number('team[order]', $entity->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
-                    </div>
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
+                <div class="col-lg-10">
+                    <?php echo Element::number('team[order]', $entity->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate("Member's sort order"))); ?>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
-                    <div class="col-lg-10">
-                        <?php if ($entity->getPhoto()): ?>
-                        <p><img class="img-responsive" src="<?php echo $entity->getImageUrl('400x200');?>" /></p>
+            <div class="form-group">
+                <label class="col-lg-2 control-label"><?php $this->show('Photo'); ?></label>
+                <div class="col-lg-10">
+                    <?php if ($entity->getPhoto()): ?>
+                    <p><img class="img-responsive" src="<?php echo $entity->getImageUrl('400x200');?>" /></p>
 
-                        <?php else: ?>
-                        <p><img data-image="preview" /></p>
+                    <?php else: ?>
+                    <p><img data-image="preview" /></p>
 
-                        <?php endif; ?>
+                    <?php endif; ?>
 
-                        <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                        <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
-                    </div>
+                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                    <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
                 </div>
             </div>
         </div>

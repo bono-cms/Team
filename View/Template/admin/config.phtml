@@ -5,53 +5,50 @@ defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="config">
+<form class="card" data-group="config" autocomplete="off">
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Per page count'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::number('config[per_page_count]', $config->getPerPageCount(), array('class' => 'form-control')); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            </div>
+            <span class="help-block"><?php $this->show('Amount of members to be displayed per page'); ?></span>
+        </div>
+    </div>
 
-	<div class="well">
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Per page count'); ?></label>
-			<div class="col-lg-10">
-				<div class="input-group">
-					<?php echo Element::number('config[per_page_count]', $config->getPerPageCount(), array('class' => 'form-control')); ?>
-					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-				</div>
-				<span class="help-block"><?php $this->show('Amount of members to be displayed per page'); ?></span>
-			</div>
-		</div>
-		
-		<?php if (!$extendedMode): ?>
-		<div class="hidden">
-		<?php endif; ?>
-		
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Cover height'); ?></label>
-			<div class="col-lg-10">
-				<div class="input-group">
-                    <?php echo Element::number('config[cover_height]', $config->getCoverHeight(), array('class' => 'form-control')); ?>
-					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-				</div>
-				<span class="help-block"><?php $this->show('Cover height when displaying on site'); ?></span>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<label class="col-lg-2 control-label"><?php $this->show('Cover width'); ?></label>
-			<div class="col-lg-10">
-				<div class="input-group">
-                    <?php echo Element::number('config[cover_width]', $config->getCoverWidth(), array('class' => 'form-control')); ?>
-					<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-				</div>
-				<span class="help-block"><?php $this->show('Cover width when displaying on site'); ?></span>
-			</div>
-		</div>
-		
-		<?php if (!$extendedMode): ?>
-		</div>
-		<?php endif; ?>
-		
+    <?php if (!$extendedMode): ?>
+    <div class="hidden">
+    <?php endif; ?>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Cover height'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::number('config[cover_height]', $config->getCoverHeight(), array('class' => 'form-control')); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            </div>
+            <span class="help-block"><?php $this->show('Cover height when displaying on site'); ?></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Cover width'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?php echo Element::number('config[cover_width]', $config->getCoverWidth(), array('class' => 'form-control')); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            </div>
+            <span class="help-block"><?php $this->show('Cover width when displaying on site'); ?></span>
+        </div>
+    </div>
+
+    <?php if (!$extendedMode): ?>
+    </div>
+    <?php endif; ?>
+	
+    <div class="actions">
+        <button data-button="save-changes" data-url="<?php echo $this->url('Team:Admin:Config@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+        <button data-button="cancel" data-url="<?php echo $this->url('Team:Admin:Browser@indexAction'); ?>" type="button" class="btn btn-default"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Cancel'); ?></button>
 	</div>
-	
-	<button data-button="save-changes" data-url="<?php echo $this->url('Team:Admin:Config@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-	<button data-button="cancel" data-url="<?php echo $this->url('Team:Admin:Browser@indexAction'); ?>" type="button" class="btn btn-default"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Cancel'); ?></button>
-	
 </form>
