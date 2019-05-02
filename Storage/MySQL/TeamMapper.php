@@ -89,7 +89,7 @@ final class TeamMapper extends AbstractMapper implements TeamMapperInterface
 
         if ($published === true) {
             $db->andWhereEquals(self::column('published'), '1')
-               ->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
+               ->orderBy(new RawSqlFragment(sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', self::column('order'), self::column('order'), self::column('id'))));
         } else {
             $db->orderBy(self::column('id'))
                ->desc();
