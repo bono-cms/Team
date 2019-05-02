@@ -85,7 +85,7 @@ defined('KRYSTAL') or die;
     </div>
 
     <?php $this->loadPartial('actions', array(
-        'new' => !is_object($member),
+        'new' => is_object($member),
         'add' => 'Team:Admin:Member@addAction',
         'edit' => 'Team:Admin:Member@editAction',
         'save' => 'Team:Admin:Member@saveAction',
