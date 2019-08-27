@@ -73,7 +73,8 @@ final class Member extends AbstractController
         $member = $this->getTeamManager()->fetchById($id, true);
 
         if ($member !== false) {
-            return $this->createForm($member, 'Edit the member');
+            $name = $this->getCurrentProperty($member, 'name');
+            return $this->createForm($member, $this->translator->translate('Edit the member "%s"', $name));
         } else {
             return false;
         }
