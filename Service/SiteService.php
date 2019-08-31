@@ -11,22 +11,22 @@
 
 namespace Team\Service;
 
-final class SiteService implements SiteServiceInterface
+final class SiteService
 {
     /**
      * Team manager service
      * 
-     * @var \Team\Service\TeamManagerInterface
+     * @var \Team\Service\TeamManager
      */
     private $teamManager;
 
     /**
      * State initialization
      * 
-     * @param \Team\Service\TeamManagerInterface $teamManager
+     * @param \Team\Service\TeamManager $teamManager
      * @return void
      */
-    public function __construct(TeamManagerInterface $teamManager)
+    public function __construct(TeamManager $teamManager)
     {
         $this->teamManager = $teamManager;
     }

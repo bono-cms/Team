@@ -119,7 +119,7 @@ final class Member extends AbstractController
         if ($this->request->hasPost('batch')) {
             $ids = array_keys($this->request->getPost('batch'));
 
-            $service->deleteByIds($ids);
+            $service->delete($ids);
             $this->flashBag->set('success', 'Selected elements have been removed successfully');
 
             // Save in the history
@@ -133,7 +133,7 @@ final class Member extends AbstractController
         if (!empty($id)) {
             $member = $this->getTeamManager()->fetchById($id, false);
 
-            $service->deleteById($id);
+            $service->delete($id);
             $this->flashBag->set('success', 'Selected element has been removed successfully');
 
             // Save in the history

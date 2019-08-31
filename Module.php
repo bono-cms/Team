@@ -55,8 +55,7 @@ final class Module extends AbstractCmsModule
 
         $teamManager = new TeamManager(
             $this->getMapper('/Team/Storage/MySQL/TeamMapper'), 
-            $this->getImageManager($config->getEntity()), 
-            $this->getHistoryManager()
+            $this->getImageManager($config->getEntity())
         );
 
         return array(

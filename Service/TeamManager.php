@@ -17,7 +17,7 @@ use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Security\Filter;
 use Team\Storage\TeamMapperInterface;
 
-final class TeamManager extends AbstractManager implements TeamManagerInterface
+final class TeamManager extends AbstractManager
 {
     /**
      * Any compliant team mapper
@@ -180,24 +180,17 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     /**
      * Removes a member by associated id
      * 
-     * @param string $id Member id
+     * @param string $id|array Member id
      * @return boolean
      */
-    public function deleteById($id)
+    public function delete($ids)
     {
-        return $this->teamMapper->deleteEntity($id) && $this->imageManager->delete($id);
-    }
+        if (!is_array($ids)) {
+            $ids = array($ids);
+        }
 
-    /**
-     * Delete members by ids
-     * 
-     * @param array $ids
-     * @return boolean
-     */
-    public function deleteByIds(array $ids)
-    {
         foreach ($ids as $id) {
-            if (!$this->deleteById($id)) {
+            if (!($this->teamMapper->deleteEntity($id) && $this->imageManager->delete($id))) {
                 return false;
             }
         }
