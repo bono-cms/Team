@@ -34,25 +34,16 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     private $imageManager;
 
     /**
-     * History manager to keep track
-     * 
-     * @var \Cms\Service\HistoryManagerInterface
-     */
-    private $historyManager;
-
-    /**
      * State initialization
      * 
      * @param \Team\Storage\TeamMapperInterface $teamMapper
      * @param \Krystal\Image\Tool\ImageManagerInterface $imageManager
-     * @param \Cms\Service\HistoryManagerInterface
      * @return void
      */
-    public function __construct(TeamMapperInterface $teamMapper, ImageManagerInterface $imageManager, HistoryManagerInterface $historyManager)
+    public function __construct(TeamMapperInterface $teamMapper, ImageManagerInterface $imageManager)
     {
         $this->teamMapper = $teamMapper;
         $this->imageManager = $imageManager;
-        $this->historyManager = $historyManager;
     }
 
     /**
@@ -85,6 +76,22 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     public function getPaginator()
     {
         return $this->teamMapper->getPaginator();
+    }
+
+    /**
+     * Fetches member's entity by associated id
+     * 
+     * @param string $id Member's id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->teamMapper->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->teamMapper->fetchById($id, false));
+        }
     }
 
     /**
@@ -132,7 +139,6 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
             // Safe type-casting
             $form['order'] = (int) $form['order'];
 
-            // $this->track('Member "%s" has been added', $form['name']);
             // Insert must be first, so that we can get the last id
             return $this->teamMapper->saveEntity($form, $translations) && $this->imageManager->upload($this->getLastId(), $file);
         }
@@ -162,55 +168,13 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
                 $form['order'] = (int) $form['order'];
 
                 $this->imageManager->upload($form['id'], $file);
-
             } else {
-
                 // Failed to remove old photo:
                 return false;
             }
         }
 
-        // $this->track('Member "%s" has been updated', $form['name']);
         return $this->teamMapper->saveEntity($form, $translations);
-    }
-
-    /**
-     * Fetches member's entity by associated id
-     * 
-     * @param string $id Member's id
-     * @param boolean $withTranslations Whether to fetch translations or not
-     * @return array
-     */
-    public function fetchById($id, $withTranslations)
-    {
-        if ($withTranslations == true) {
-            return $this->prepareResults($this->teamMapper->fetchById($id, true));
-        } else {
-            return $this->prepareResult($this->teamMapper->fetchById($id, false));
-        }
-    }
-
-    /**
-     * Tracks activity
-     * 
-     * @param string $message
-     * @param string $placeholder
-     * @return boolean
-     */
-    private function track($message, $placeholder)
-    {
-        return $this->historyManager->write('Team', $message, $placeholder);
-    }
-
-    /**
-     * Deletes a member
-     * 
-     * @param string $id Member's id
-     * @return boolean
-     */
-    private function delete($id)
-    {
-        return $this->teamMapper->deleteEntity($id) && $this->imageManager->delete($id);
     }
 
     /**
@@ -221,15 +185,7 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
      */
     public function deleteById($id)
     {
-        //$name = Filter::escape($this->teamMapper->fetchNameById($id));
-
-        if ($this->delete($id)) {
-            //$this->track('Member "%s" has been removed', $name);
-            return true;
-
-        } else {
-            return false;
-        }
+        return $this->teamMapper->deleteEntity($id) && $this->imageManager->delete($id);
     }
 
     /**
@@ -241,12 +197,11 @@ final class TeamManager extends AbstractManager implements TeamManagerInterface
     public function deleteByIds(array $ids)
     {
         foreach ($ids as $id) {
-            if (!$this->delete($id)) {
+            if (!$this->deleteById($id)) {
                 return false;
             }
         }
-        
-        $this->track('Batch removal of %s members', count($ids));
+
         return true;
     }
 

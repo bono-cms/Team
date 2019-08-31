@@ -4,6 +4,7 @@ CHANGELOG
 1.2
 ---
 
+ * Moved history tracker of out main service into the main controller
  * Support multi-language forms
  * Fixed issue with quote escaping
  * Changed the way of storing configuration data. Since now its stored in the database

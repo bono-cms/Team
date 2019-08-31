@@ -112,6 +112,7 @@ final class Member extends AbstractController
      */
     public function deleteAction($id)
     {
+        $historyService = $this->getService('Cms', 'historyManager');
         $service = $this->getModuleService('teamManager');
 
         // Batch removal
@@ -121,14 +122,22 @@ final class Member extends AbstractController
             $service->deleteByIds($ids);
             $this->flashBag->set('success', 'Selected elements have been removed successfully');
 
+            // Save in the history
+            $historyService->write('Team', 'Batch removal of %s members', count($ids));
+
         } else {
             $this->flashBag->set('warning', 'You should select at least one element to remove');
         }
 
         // Single removal
         if (!empty($id)) {
+            $member = $this->getTeamManager()->fetchById($id, false);
+
             $service->deleteById($id);
             $this->flashBag->set('success', 'Selected element has been removed successfully');
+
+            // Save in the history
+            $historyService->write('Team', 'Member "%s" has been removed', $member->getName());
         }
 
         return '1';
@@ -178,11 +187,17 @@ final class Member extends AbstractController
 
         if (1) {
             $service = $this->getModuleService('teamManager');
+            $historyService = $this->getService('Cms', 'historyManager');
+
+            // Current page name
+            $name = $this->getCurrentProperty($this->request->getPost('translation'), 'name');
 
             // Update
             if (!empty($input['team']['id'])) {
                 if ($service->update($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
+
+                    $historyService->write('Team', 'Member "%s" has been updated', $name);
                     return '1';
                 }
 
@@ -190,6 +205,8 @@ final class Member extends AbstractController
                 // Create
                 if ($service->add($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been created successfully');
+
+                    $historyService->write('Team', 'Member "%s" has been added', $name);
                     return $service->getLastId();
                 }
             }
